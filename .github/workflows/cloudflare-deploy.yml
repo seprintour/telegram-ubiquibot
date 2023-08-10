@@ -46,9 +46,13 @@ jobs:
           DEFAULT_PRIORITY: "Priority: 0 (Normal)"
           INSTALLATION_TOKEN: ${{ steps.get_installation_token.outputs.token }}
         run: |
-          # Loop through environment variables and populate secrets
-          env | while read -r line; do
-            key=$(echo "$line" | cut -d= -f1)
-            value=$(echo "$line" | cut -d= -f2-)
-            echo "$value" | wrangler secret put "$key"
-          done
+          # Populate Cloudflare Worker secrets
+          echo "$TOKEN" | wrangler secret put TOKEN
+          echo "$WEBHOOK" | wrangler secret put WEBHOOK
+          echo "$SECRET" | wrangler secret put SECRET
+          echo "$OPENAI_API_KEY" | wrangler secret put OPENAI_API_KEY
+          echo "$GITHUB_PAT" | wrangler secret put GITHUB_PAT
+          echo "$DEFAULT_PRIORITY" | wrangler secret put DEFAULT_PRIORITY
+          echo "$INSTALLATION_TOKEN" | wrangler secret put INSTALLATION_TOKEN
+
+          yarn deploy
