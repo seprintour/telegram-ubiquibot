@@ -48,7 +48,6 @@ jobs:
         run: |
           # Loop through environment variables and populate secrets
           env | while read -r line; do
-            echo Y | wrangler secret delete "$key"
             key=$(echo "$line" | cut -d= -f1)
             value=$(echo "$line" | cut -d= -f2-)
             echo "$value" | wrangler secret put "$key"
